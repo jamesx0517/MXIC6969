@@ -730,4 +730,3 @@ function ResetInput() {
     }
     $('input[type=select]').replaceWith('<select ></select>')
 }
-//tETS
