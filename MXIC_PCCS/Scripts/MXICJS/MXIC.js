@@ -45,7 +45,16 @@ if (title == 'MXIC') {
     ajaxUrl = '.../api/api-9'
     generateUrl = '.../api/api-9'
 }
-
+//dataList
+var dataList = [
+    { 'name': '1313', 'value': '4567' },
+    { 'name': 'efrg', 'value': '7533' },
+    { 'name': 'regr', 'value': '6386' },
+    { 'name': 'afgg', 'value': '5725' },
+    { 'name': 'wert', 'value': '3529' },
+    { 'name': 'jutj', 'value': '7526' },
+    { 'name': 'bcbn', 'value': '7522' },
+]
 //navBar & indexBTN 資料格式範例 
 var navData = [
     { 'name': '人員管理', 'url': '人員管理.html', 'commonly_used': '1' },
@@ -59,7 +68,7 @@ var navData = [
 ]
 
 //跑馬燈資料格式範例
-var marqueeContant = [
+var data = [
     { 'type': 'test', 'contant': '這是一個測試' },
     { 'type': 'alert', 'contant': '可能會爆炸' },
     { 'type': 'test', 'contant': '不要再點下去了' },
@@ -162,19 +171,22 @@ var AjaxEdit = $.map(inputGenerate, function (item, index) {
 
 
 //------------------------動態生成---------------------
+
+
 //取得頁面應動態生成INPUT資料
 var GenerateResult = $.map(inputGenerate, function (item, index) {
     if (item.Generate == '1') {
         return item.Remarks
     }
 })
+console.log(GenerateResult)
 //取得頁面應動態生成INPUT格式
 var GenerateTypeResult = $.map(inputGenerate, function (item, index) {
-    if (item.GenerateType !== '0') {
+    if (item.GenerateType !== '0'&&item.Generate == '1' ) {
         return item.GenerateType
     }
 })
-
+console.log(GenerateTypeResult)
 //取得Pop應動態生成INPUT資料
 var PopGenerateResult = $.map(inputGenerate, function (item, index) {
     if (item.PopGenerate == '1') {
@@ -183,7 +195,7 @@ var PopGenerateResult = $.map(inputGenerate, function (item, index) {
 })
 //取得Pop應動態生成INPUT 格式
 var PopGenerateTypeResult = $.map(inputGenerate, function (item, index) {
-    if (item.AddPopGenerate !== '') {
+    if (item.AddPopGenerate !== '0'&&item.PopGenerate == '1') {
         return item.AddPopGenerate
     }
 })
@@ -201,10 +213,11 @@ var editPopGenerateResult = $.map(inputGenerate, function (item, index) {
         return item.Remarks
     }
 })
+
 //取得Pop應動態生成INPUT 格式
 var editPopGenerateTypeResult = $.map(inputGenerate, function (item, index) {
     if (item.PopGenerate == '1' && item.EditPopGenerate !== '0') {
-        return item.AddPopGenerate
+        return item.EditPopGenerate
     }
 })
 
@@ -227,27 +240,67 @@ $(document).ready(function () {
 
     $('.title').html(title);
     //動態生成INPUT
-    $('.inputBox').html('');
-    for (i = 0; i < GenerateResult.length; i++) {
-        $('.inputBox').append('<input type="' + GenerateTypeResult[i] + '" name="seachTextInput" placeholder="' + GenerateResult[i] + '" required="required" />')
-    }
+    // $('.inputBox').html('');
+    // for (i = 0; i < GenerateResult.length; i++) {
+    //     $('.inputBox').append('<input type="' + GenerateTypeResult[i] + '" name="seachTextInput" placeholder="' + GenerateResult[i] + '" required="required" />')
+    // }
 
-    //動態生成新增Pop INPUT
-    $('.insertPopUpContant').html('');
+    // //動態生成新增Pop INPUT
+    // $('.insertPopUpContant').html('');
 
-    for (i = 0; i < PopGenerateResult.length; i++) {
-        $('.insertPopUpContant').append('<div class="PopSeachBox" stlye="display:flex;"><label>' + PopGenerateResult[i] + '</label><input type="' + PopGenerateTypeResult[i] + '" name="insertTextInput" placeholder="' + PopGenerateResult[i] + '" required="required" /></div>')
-        $('input[type=select]').replaceWith('<select></select>')
-    }
+    // for (i = 0; i < PopGenerateResult.length; i++) {
+    //     $('.insertPopUpContant').append('<div class="PopSeachBox" stlye="display:flex;"><label>' + PopGenerateResult[i] + '</label><input type="' + PopGenerateTypeResult[i] + '" name="insertTextInput" placeholder="' + PopGenerateResult[i] + '" required="required" /></div>')
+    //     $('input[type=select]').replaceWith('<select></select>')
+    // }
    
 
-    //動態生成修改Pop INPUT
-    $('.editPopUpContant').html('');
+    // //動態生成修改Pop INPUT
+    // $('.editPopUpContant').html('');
 
-    for (i = 0; i < editPopGenerateResult.length; i++) {
-        $('.editPopUpContant').append('<div class="PopSeachBox" stlye="display:flex;"><label>' + editPopGenerateResult[i] + '</label><input type="' + editPopGenerateTypeResult[i] + '" name="editTextInput" placeholder="' + editPopGenerateResult[i] + '" required="required" /></div>')
-        $('input[type=select]').replaceWith('<select ></select>')
+    // for (i = 0; i < editPopGenerateResult.length; i++) {
+    //     $('.editPopUpContant').append('<div class="PopSeachBox" stlye="display:flex;"><label>' + editPopGenerateResult[i] + '</label><input type="' + editPopGenerateTypeResult[i] + '" name="editTextInput" placeholder="' + editPopGenerateResult[i] + '" required="required" /></div>')
+    //     $('input[type=select]').replaceWith('<select ></select>')
+    // }
+
+    //-----------------------------------------------------以下新版動態生成
+    for (i = 0; i < GenerateResult.length; i++) {
+        if(GenerateTypeResult[i]=="date")
+        {
+            $('.inputBox').append('<label>'+ GenerateResult[i] +'</label><input type="' + GenerateTypeResult[i] + '" name="seachTextInput" placeholder="' + GenerateResult[i] + '" required="required" />')
+        }else{
+        $('.inputBox').append('<input type="' + GenerateTypeResult[i] + '" name="seachTextInput" placeholder="' + GenerateResult[i] + '" required="required" />')
+        $('input[type=select]').replaceWith('<label>'+ GenerateResult[i] +'</label><input type="text" name="seachTextInput" id="" class="editInputOption" list="seachInputOption'+[i]+'"><datalist id="seachInputOption'+[i]+'"></datalist>')
     }
+    };
+
+    //動態生成新增Pop INPUT
+    inputGenerate('insertPopUpContant', PopGenerateResult, PopGenerateTypeResult, 'insertTextInput');
+
+    //動態生成修改Pop INPUT
+    inputGenerate('editPopUpContant', editPopGenerateResult, editPopGenerateTypeResult, 'editTextInput');
+
+    //彈跳視窗 input生成
+    function inputGenerate(location, result, resultType, inputname) {
+        $('.' + location).html('');
+        for (i = 0; i < result.length; i++) {
+           
+            $('.' + location).append('<div class="PopSeachBox" stlye="display:flex;"><label>' + result[i] + '</label><input type="' + resultType[i] + '" name="' + inputname + '" placeholder="' + result[i] + '" required="required" /></div>')
+            $('input[type=select]').replaceWith('<input type="text" name="' + inputname + '" id="" class="editInputOption" list="editInputOption'+[i]+'"><datalist id="editInputOption'+[i]+'"></datalist>')
+           //$('input[type=checkbox]').replaceWith('<input type="checkbox" checked="checked" value="" onclick="' + checkboxFuntiom + '">')
+        };
+    }
+
+
+
+    //指地select選單資料
+    inputOption('editInputOption0', dataList, '廠商名稱：', '廠商編號：');
+    inputOption('seachInputOption4', dataList, '廠商名稱：', '廠商編號：');
+    //指定 下拉選單選項
+    function inputOption(inputID, DT, PrefixValue, PrefixText) {
+        for (i = 0; i < DT.length; i++) {
+            $('#' + inputID).append('<option value="' + PrefixValue + '' + DT[i].name + '" />' + PrefixText + '' + DT[i].value + '</option>')
+        };
+    };
 
     //step.2 根據陣列物件數量，自動配置欄寬
     var gridWid = $('.tableContant').width();
@@ -378,34 +431,65 @@ function iconMenu(e) {
     }
 }
 
-var marqueeTop = 0;
-//跑馬燈 按鈕向下
-function marqueeDown() {
-    if (marqueeTop <= -72) {
-        marqueeTop = -72;
-    } else {
-        marqueeTop -= 18
-    }
-    $('.marqueeContant').css('transform', 'translateY(' + marqueeTop + 'px)')
-}
-//跑馬燈 按鈕向上
-function marqueeUp() {
-    if (marqueeTop < 0) {
-        marqueeTop += 18;
-    } else {
-        marqueeTop = 0;
-    }
-    $('.marqueeContant').css('transform', 'translateY(' + marqueeTop + 'px)')
-}
+// var marqueeTop = 0;
+// //跑馬燈 按鈕向下
+// function marqueeDown() {
+//     if (marqueeTop <= -72) {
+//         marqueeTop = -72;
+//     } else {
+//         marqueeTop -= 18
+//     }
+//     $('.marqueeContant').css('transform', 'translateY(' + marqueeTop + 'px)')
+// }
+// //跑馬燈 按鈕向上
+// function marqueeUp() {
+//     if (marqueeTop < 0) {
+//         marqueeTop += 18;
+//     } else {
+//         marqueeTop = 0;
+//     }
+//     $('.marqueeContant').css('transform', 'translateY(' + marqueeTop + 'px)')
+// }
+// //跑馬燈 內容
+// function marquee(e) {
+//     for (i = 0; i <= e.length; i++) {
+//         if (e.length <= 5) {
+//             $('.marqueeContant').append('<div style="display:flex; height:18px;"><p style="color:red; margin-right:10px">' + e[i].type + '</p><p style="line-height: 18px;">' + e[i].contant + '</p></div>')
+//         }
+//     }
+// }
 //跑馬燈 內容
 function marquee(e) {
-    for (i = 0; i <= e.length; i++) {
-        if (e.length <= 5) {
-            $('.marqueeContant').append('<div style="display:flex; height:18px;"><p style="color:red; margin-right:10px">' + e[i].type + '</p><p style="line-height: 18px;">' + e[i].contant + '</p></div>')
+    i = 0;
+    marqueeMassege(e, 0)
+    setInterval(function () {
+        i += 1;
+        if (i > e.length - 1) {
+            i = 0;
         }
-    }
+        marqueeMassege(e, i);
+    }, 20000);
+    $('.fa-chevron-left').click(function () {
+        i--;
+        if (i < 0) {
+            i = 0;
+        }
+        marqueeMassege(e, i);
+    });
+    $('.fa-chevron-right').click(function () {
+        i++;
+        if (i > e.length - 1) {
+            i = e.length - 1;
+        }
+        marqueeMassege(e, i);
+    });
 }
 
+//跑馬燈內容 調用顯示內容 傳入資料形式與所在位置
+function marqueeMassege(data, num) {
+    $('.marqueeContant').empty();
+    $('.marqueeContant').append('<div style="display:flex; height:18px; margin:0 20px 0 0"><p style="color:red; margin-right:10px">' + data[num].type + '</p><p style="line-height: 18px;">' + data[num].contant + '</p></div>')
+}
 //取得所有"文字"輸入框參數
 function seachBtn() {
 
@@ -470,6 +554,7 @@ function edit(e) {
 
     EditID = e.id;
     EditData(EditID)
+   
 }
 
 //生成EDIT中的資料
