@@ -24,5 +24,25 @@ namespace MXIC_PCCS.Controllers
 
             return str;
         }
+
+        public string SwipeInfoDetail(string EditID)
+        {
+            string str = _ISwipeInfo.SwipeInfoDetail(EditID);
+
+            return str;
+
+        }
+        public string EditSwipe(string EditID,string AttendTypeSelect,string Hour)
+        {
+
+            string str = _ISwipeInfo.EditSwipe(EditID, AttendTypeSelect, Hour);
+
+            return str;
+        }
+      
+        public void transform()
+        {
+            _ISwipeInfo.transform();
+        }
     }
 }

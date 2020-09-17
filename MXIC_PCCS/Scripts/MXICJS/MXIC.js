@@ -16,7 +16,7 @@ if (title == 'MXIC') {
     //編輯資料取的url
     editDetailUrl = "/UserManagement/EditUserDetail",
         //編輯Url
-        editUrl = "/UserManagement/EditUser"
+    editUrl = "/UserManagement/EditUser"
     //刪除url
     deleteurl = "/UserManagement/DeleteUser"
     //新增url
@@ -41,11 +41,25 @@ if (title == 'MXIC') {
 } else if (title == '刷卡紀錄') {
     tablename = "MXIC_View_Swipe"
     ajaxUrl = "/SwipeInfo/CheckinList"
+    //editDetailUrl="/SwipeInfo/SwipeInfoDetail"
+    editUrl = "/SwipeInfo/EditSwipe"
 } else if (title == '匯出計價單') {
     ajaxUrl = '.../api/api-9'
     generateUrl = '.../api/api-9'
 }
+<<<<<<< Updated upstream
 
+=======
+//dataList
+var dataList = [
+    { 'name': '正常', 'value': '正常' },
+    { 'name': '異常', 'value': '異常' },
+    { 'name': '加班', 'value': '加班' },
+    { 'name': '遲到', 'value': '遲到' },
+    { 'name': '早退', 'value': '早退' },
+
+]
+>>>>>>> Stashed changes
 //navBar & indexBTN 資料格式範例 
 var navData = [
     { 'name': '人員管理', 'url': '人員管理.html', 'commonly_used': '1' },
@@ -235,19 +249,44 @@ $(document).ready(function () {
     //動態生成新增Pop INPUT
     $('.insertPopUpContant').html('');
 
+<<<<<<< Updated upstream
     for (i = 0; i < PopGenerateResult.length; i++) {
         $('.insertPopUpContant').append('<div class="PopSeachBox" stlye="display:flex;"><label>' + PopGenerateResult[i] + '</label><input type="' + PopGenerateTypeResult[i] + '" name="insertTextInput" placeholder="' + PopGenerateResult[i] + '" required="required" /></div>')
         $('input[type=select]').replaceWith('<select></select>')
+=======
+    //彈跳視窗 input生成
+    function inputGenerate(location, result, resultType, inputname) {
+        $('.' + location).html('');
+        for (i = 0; i < result.length; i++) {
+           
+            $('.' + location).append('<div class="PopSeachBox" stlye="display:flex;"><label>' + result[i] + '</label><input type="' + resultType[i] + '" name="' + inputname + '" placeholder="' + result[i] + '" required="required" /></div>')
+            $('input[type=select]').replaceWith('</label><input type="text" name="' + inputname + '" id="" class="editInputOption" list="editInputOption'+[i]+'"><datalist id="editInputOption'+[i]+'"></datalist>')
+           //$('input[type=checkbox]').replaceWith('<input type="checkbox" checked="checked" value="" onclick="' + checkboxFuntiom + '">')
+        };
+>>>>>>> Stashed changes
     }
    
 
     //動態生成修改Pop INPUT
     $('.editPopUpContant').html('');
 
+<<<<<<< Updated upstream
     for (i = 0; i < editPopGenerateResult.length; i++) {
         $('.editPopUpContant').append('<div class="PopSeachBox" stlye="display:flex;"><label>' + editPopGenerateResult[i] + '</label><input type="' + editPopGenerateTypeResult[i] + '" name="editTextInput" placeholder="' + editPopGenerateResult[i] + '" required="required" /></div>')
         $('input[type=select]').replaceWith('<select ></select>')
     }
+=======
+
+    //指地select選單資料
+    inputOption('editInputOption0', dataList, '', '');
+    inputOption('seachInputOption2', dataList, '', '');
+    //指定 下拉選單選項
+    function inputOption(inputID, DT, PrefixValue, PrefixText) {
+        for (i = 0; i < DT.length; i++) {
+            $('#' + inputID).append('<option value="' + PrefixValue + '' + DT[i].name + '" />' + PrefixText + '' + DT[i].value + '</option>')
+        };
+    };
+>>>>>>> Stashed changes
 
     //step.2 根據陣列物件數量，自動配置欄寬
     var gridWid = $('.tableContant').width();
@@ -469,7 +508,13 @@ function edit(e) {
     $('.cover').removeClass('blur-out').addClass('blur-in')
 
     EditID = e.id;
+   
     EditData(EditID)
+<<<<<<< Updated upstream
+=======
+   
+   
+>>>>>>> Stashed changes
 }
 
 //生成EDIT中的資料
@@ -659,7 +704,7 @@ function EditDB() {
         async: false,
         cache: false,
         type: "post",
-        datatype: "test",
+        datatype: "text",
         url: editUrl,
         data: Editobj,
         traditional: true,
@@ -692,12 +737,12 @@ function EditBtn(cellvalue, options, rowObject) {
  {
      if(rowObject.AttendType=="異常")
      {
-        return ' <a href="#" id=' + rowObject.EditID + ' class="seachBTN btn-1" style="width:50px" onclick="edit(this)">異常</a>';
+        return ' <a href="#" id=' + rowObject.EditID + ' class="seachBTN btn-1" style="width:50px" onclick="edit(this)">'+rowObject.AttendType+'</a>';
 
      }else
      {
 
-        return '正常';
+        return rowObject.AttendType;
 
      }
 

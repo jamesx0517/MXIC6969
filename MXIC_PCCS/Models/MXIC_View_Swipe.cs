@@ -31,7 +31,7 @@
 
         [Key]
         [Column(Order = 4)]
-        public DateTime SwipeTime { get; set; }
+        public DateTime? SwipeTime { get; set; }
         [Key]
         [Column(Order = 5)]
         
