@@ -21,7 +21,7 @@ namespace MXIC_PCCS.Models
         [StringLength(50)]
         public string CheckType { get; set; }
 
-        public DateTime SwipeTime { get; set; }
+        public DateTime? SwipeTime { get; set; }
 
         public Guid EditID { get; set; }
 
