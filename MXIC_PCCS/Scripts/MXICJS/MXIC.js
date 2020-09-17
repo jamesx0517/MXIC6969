@@ -16,7 +16,7 @@ if (title == 'MXIC') {
     //編輯資料取的url
     editDetailUrl = "/UserManagement/EditUserDetail",
         //編輯Url
-        editUrl = "/UserManagement/EditUser"
+    editUrl = "/UserManagement/EditUser"
     //刪除url
     deleteurl = "/UserManagement/DeleteUser"
     //新增url
@@ -41,19 +41,20 @@ if (title == 'MXIC') {
 } else if (title == '刷卡紀錄') {
     tablename = "MXIC_View_Swipe"
     ajaxUrl = "/SwipeInfo/CheckinList"
+    //editDetailUrl="/SwipeInfo/SwipeInfoDetail"
+    editUrl = "/SwipeInfo/EditSwipe"
 } else if (title == '匯出計價單') {
     ajaxUrl = '.../api/api-9'
     generateUrl = '.../api/api-9'
 }
 //dataList
 var dataList = [
-    { 'name': '1313', 'value': '4567' },
-    { 'name': 'efrg', 'value': '7533' },
-    { 'name': 'regr', 'value': '6386' },
-    { 'name': 'afgg', 'value': '5725' },
-    { 'name': 'wert', 'value': '3529' },
-    { 'name': 'jutj', 'value': '7526' },
-    { 'name': 'bcbn', 'value': '7522' },
+    { 'name': '正常', 'value': '正常' },
+    { 'name': '異常', 'value': '異常' },
+    { 'name': '加班', 'value': '加班' },
+    { 'name': '遲到', 'value': '遲到' },
+    { 'name': '早退', 'value': '早退' },
+
 ]
 //navBar & indexBTN 資料格式範例 
 var navData = [
@@ -285,7 +286,7 @@ $(document).ready(function () {
         for (i = 0; i < result.length; i++) {
            
             $('.' + location).append('<div class="PopSeachBox" stlye="display:flex;"><label>' + result[i] + '</label><input type="' + resultType[i] + '" name="' + inputname + '" placeholder="' + result[i] + '" required="required" /></div>')
-            $('input[type=select]').replaceWith('<input type="text" name="' + inputname + '" id="" class="editInputOption" list="editInputOption'+[i]+'"><datalist id="editInputOption'+[i]+'"></datalist>')
+            $('input[type=select]').replaceWith('</label><input type="text" name="' + inputname + '" id="" class="editInputOption" list="editInputOption'+[i]+'"><datalist id="editInputOption'+[i]+'"></datalist>')
            //$('input[type=checkbox]').replaceWith('<input type="checkbox" checked="checked" value="" onclick="' + checkboxFuntiom + '">')
         };
     }
@@ -293,8 +294,8 @@ $(document).ready(function () {
 
 
     //指地select選單資料
-    inputOption('editInputOption0', dataList, '廠商名稱：', '廠商編號：');
-    inputOption('seachInputOption4', dataList, '廠商名稱：', '廠商編號：');
+    inputOption('editInputOption0', dataList, '', '');
+    inputOption('seachInputOption2', dataList, '', '');
     //指定 下拉選單選項
     function inputOption(inputID, DT, PrefixValue, PrefixText) {
         for (i = 0; i < DT.length; i++) {
@@ -553,7 +554,9 @@ function edit(e) {
     $('.cover').removeClass('blur-out').addClass('blur-in')
 
     EditID = e.id;
+   
     EditData(EditID)
+   
    
 }
 
@@ -744,7 +747,7 @@ function EditDB() {
         async: false,
         cache: false,
         type: "post",
-        datatype: "test",
+        datatype: "text",
         url: editUrl,
         data: Editobj,
         traditional: true,
@@ -777,12 +780,12 @@ function EditBtn(cellvalue, options, rowObject) {
  {
      if(rowObject.AttendType=="異常")
      {
-        return ' <a href="#" id=' + rowObject.EditID + ' class="seachBTN btn-1" style="width:50px" onclick="edit(this)">異常</a>';
+        return ' <a href="#" id=' + rowObject.EditID + ' class="seachBTN btn-1" style="width:50px" onclick="edit(this)">'+rowObject.AttendType+'</a>';
 
      }else
      {
 
-        return '正常';
+        return rowObject.AttendType;
 
      }
 
